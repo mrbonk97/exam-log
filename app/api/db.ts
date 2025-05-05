@@ -24,7 +24,12 @@ async function initOracleClient() {
 
 export function getDbPool() {
   if (pool) return pool;
-  else return initOracleClient();
+  return initOracleClient();
+}
+
+export async function getConn() {
+  if (pool) return pool.getConnection();
+  return initOracleClient().then((res) => res.getConnection());
 }
 
 process.on("SIGINT", async () => {
