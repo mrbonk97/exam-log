@@ -1,30 +1,30 @@
+export type CertType = {
+  ID: string;
+  TITLE: string;
+  ORGANIZATION: string;
+  DESCRIPTION: string;
+  HOMEPAGE: string;
+  HOMEPAGE_URL: string;
+  HOMEPAGE_IMG_URL: string;
+};
+
 export type ExamType = {
   ID: number;
   CERT_ID: string;
   TITLE: string;
-  EXAM_ROUND: string;
+  EXAM_ROUND: number;
   YEAR: number;
+  IS_REGISTERED: boolean;
+  SUBJECT_1: string;
+  SUBJECT_2: string;
+  SUBJECT_3: string;
+  SUBJECT_4: string;
+  SUBJECT_5: string;
   REGISTER_START_DATE: string;
   REGISTER_END_DATE: string;
   EXAM_START_DATE: string;
   EXAM_END_DATE: string;
   RESULT_DATE: string;
-};
-
-export type CertifiateType = {
-  examInfo: {
-    id: string;
-    group: string;
-    title: string;
-    description: string;
-    agency: string;
-    homepage: {
-      title: string;
-      logo: string;
-      url: string;
-    };
-  };
-  examList: ExamType[];
 };
 
 export type QuestionType = {

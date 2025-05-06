@@ -9,12 +9,20 @@ import { DialogTitle } from "@radix-ui/react-dialog";
 import { useRouter } from "next/navigation";
 
 interface Props {
-  homePage: string;
+  homepage: string;
+  homepageUrl: string;
+  homepageImgUrl: string;
   schedule: ExamType[];
   examList: ExamType[];
 }
 
-export const ExamButtonSection = ({ homePage, schedule, examList }: Props) => {
+export const ExamButtonSection = ({
+  homepage,
+  homepageUrl,
+  homepageImgUrl,
+  schedule,
+  examList,
+}: Props) => {
   const router = useRouter();
   const getRandomTest = () => {
     const randomIdx = Math.floor(Math.random() * examList.length);
@@ -22,29 +30,46 @@ export const ExamButtonSection = ({ homePage, schedule, examList }: Props) => {
   };
 
   return (
-    <section className="py-5 mx-auto max-w-7xl grid grid-cols-3 gap-10 border-b">
-      <Card className="col-span-1 shadow-none">
+    <section className="p-5 mx-auto max-w-7xl grid grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-10 border-b">
+      <Link href={homepageUrl} className="h-full col-span-1">
+        <Card className="h-full shadow-none cursor-pointer duration-150 hover:bg-secondary">
+          <CardHeader>
+            <CardTitle>접수 홈페이지</CardTitle>
+          </CardHeader>
+          <CardContent className="h-full flex items-center justify-center">
+            <Image
+              src={homepageImgUrl}
+              alt={homepage}
+              height={96}
+              width={96}
+              className="h-12 lg:h-auto"
+            />
+          </CardContent>
+        </Card>
+      </Link>
+      <Card
+        role="button"
+        onClick={getRandomTest}
+        className="lg:hidden col-span-1 shadow-none cursor-pointer duration-150 hover:bg-secondary"
+      >
         <CardHeader>
-          <CardTitle>접수 홈페이지</CardTitle>
+          <CardTitle>랜덤회차 도전</CardTitle>
         </CardHeader>
-        <CardContent>
-          <Link href={homePage} className="hover:underline underline-offset-2">
-            <Image src={"/logos/qnet.svg"} alt="qnet" height={96} width={96} className="mx-auto" />
-            <p className="mt-1 text-center">큐넷</p>
-          </Link>
+        <CardContent className="h-full flex items-center justify-center">
+          <HandPlatter size={64} className="h-12 lg:h-auto text-yellow-500" />
         </CardContent>
       </Card>
-      <Card className="col-span-1 shadow-none">
+      <Card className="col-span-2 lg:col-span-1 shadow-none">
         <CardHeader>
           <CardTitle className="flex justify-between">
             <h5>시험 일정</h5>
             <Dialog>
-              <DialogTrigger className="cursor-pointer">상세보기</DialogTrigger>
-              <DialogContent className="max-w-full min-w-2xl">
+              <DialogTrigger>상세일정</DialogTrigger>
+              <DialogContent className="lg:min-w-2xl">
                 <DialogHeader>
                   <DialogTitle className="text-xl font-bold">시험 상세 일정</DialogTitle>
                 </DialogHeader>
-                <ul className="space-y-1">
+                <ul className="text-xs lg:text-base space-y-1 overflow-x-auto">
                   <li className="p-2 grid grid-cols-11 border-b">
                     <div className="col-span-1">시험</div>
                     <div className="col-span-2 text-right">접수시작</div>
@@ -78,7 +103,7 @@ export const ExamButtonSection = ({ homePage, schedule, examList }: Props) => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <ul className="space-y-1">
+          <ul className="space-y-1 text-sm lg:text-base">
             <li className="p-1 grid grid-cols-5 border-b">
               <div className="col-span-1">시험</div>
               <div className="col-span-2 text-right">접수시작</div>
@@ -103,13 +128,18 @@ export const ExamButtonSection = ({ homePage, schedule, examList }: Props) => {
           </ul>
         </CardContent>
       </Card>
-      <button
-        className="h-full col-span-1 border rounded-lg flex items-center justify-center gap-5 cursor-pointer hover:bg-secondary duration-150 font-medium text-xl"
+      <Card
+        role="button"
         onClick={getRandomTest}
+        className="hidden lg:block col-span-1 shadow-none cursor-pointer duration-150 hover:bg-secondary"
       >
-        <HandPlatter size={48} className="text-yellow-500" />
-        랜덤 회차 풀기
-      </button>
+        <CardHeader>
+          <CardTitle>랜덤회차 도전</CardTitle>
+        </CardHeader>
+        <CardContent className="h-full flex items-center justify-center">
+          <HandPlatter size={64} className="text-yellow-500 mx-auto" />
+        </CardContent>
+      </Card>
     </section>
   );
 };

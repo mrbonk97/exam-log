@@ -1,6 +1,5 @@
-import { EXAM_LIST } from "@/constants/constants";
 import { NextRequest, NextResponse } from "next/server";
-import { getDbPool } from "@/app/api/db";
+import { getConn } from "@/app/api/db";
 import OracleDB from "oracledb";
 import { CustomError } from "@/app/api/custom-error";
 
@@ -10,24 +9,26 @@ interface Props {
   }>;
 }
 
-const SQL1 = "SELECT * FROM EL_EXAM WHERE CERT_ID = :id ORDER BY RESULT_DATE";
+const SQL1 = "SELECT * FROM EL_CERT WHERE ID = :id";
+const SQL2 = "SELECT * FROM EL_EXAM WHERE CERT_ID = :id ORDER BY RESULT_DATE";
 
 export const GET = async (req: NextRequest, { params }: Props) => {
+  const id = (await params).id;
+  let conn = null;
   try {
-    const id = (await params).id;
-    const exam = EXAM_LIST.find((item) => item.id == id);
-    if (!exam) throw new CustomError(`${id}에 해당하는 시험이 없습니다.`);
+    conn = await getConn();
 
-    const db = await getDbPool();
-    const conn = await db.getConnection();
-    const res = await conn.execute(SQL1, [id], { outFormat: OracleDB.OUT_FORMAT_OBJECT });
-    await conn.close();
+    const certInfo = await conn.execute(SQL1, [id], { outFormat: OracleDB.OUT_FORMAT_OBJECT });
+    const examInfo = await conn.execute(SQL2, [id], { outFormat: OracleDB.OUT_FORMAT_OBJECT });
+
+    if (!certInfo || !certInfo.rows || certInfo.rows.length == 0)
+      throw new CustomError(`id: ${id}에 해당하는 자격증이 없습니다.`);
 
     return NextResponse.json({
       code: "success",
       data: {
-        examInfo: exam,
-        examList: res.rows,
+        CERT_INFO: certInfo.rows[0],
+        EXAM_LIST: examInfo.rows,
       },
     });
   } catch (err) {
@@ -38,5 +39,7 @@ export const GET = async (req: NextRequest, { params }: Props) => {
       { code: "error", message: "서버 내부 오류가 발생했습니다." },
       { status: 500 }
     );
+  } finally {
+    if (conn) conn.close();
   }
 };
