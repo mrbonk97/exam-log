@@ -1,10 +1,23 @@
 import Link from "next/link";
 import { SearchSection } from "@/components/section/search-section";
+import { Metadata } from "next";
 
 interface Props {
   searchParams: Promise<{
     q?: string;
   }>;
+}
+
+export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
+  const q = (await searchParams).q || "";
+  if (q)
+    return {
+      title: `${q} - 기출로그 검색`,
+    };
+
+  return {
+    title: "자격증 목록 - 기출로그",
+  };
 }
 
 const CertPage = async ({ searchParams }: Props) => {
