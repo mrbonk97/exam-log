@@ -41,6 +41,13 @@ export type QuestionType = {
   IMAGE_2: string | null;
   ANSWER: string;
   POINT: number;
+  QUESTION_NUMBER: number;
+  SUBJECT: number;
+};
+
+export type UserType = {
+  name: string;
+  profileImage: string;
 };
 
 export type ErrorType = {
