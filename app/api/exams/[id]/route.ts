@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getConn } from "@/app/api/db";
 import OracleDB from "oracledb";
 import { CustomError } from "@/app/api/custom-error";
+import { QuestionType } from "@/lib/types";
 
 interface Props {
   params: Promise<{
@@ -9,7 +10,8 @@ interface Props {
   }>;
 }
 
-const SQL = "SELECT * FROM EL_QUESTION WHERE EXAM_ID = :id";
+const SQL1 = "SELECT * FROM EL_EXAM WHERE ID = :id";
+const SQL2 = "SELECT * FROM EL_QUESTION WHERE EXAM_ID = :id ORDER BY QUESTION_NUMBER";
 
 export const GET = async (req: NextRequest, { params }: Props) => {
   const id = (await params).id;
@@ -17,14 +19,30 @@ export const GET = async (req: NextRequest, { params }: Props) => {
 
   try {
     conn = await getConn();
-    const res = await conn.execute(SQL, [id], { outFormat: OracleDB.OUT_FORMAT_OBJECT });
+    const examInfo = await conn.execute(SQL1, [id], { outFormat: OracleDB.OUT_FORMAT_OBJECT });
+    // prettier-ignore
+    const questionInfo = await conn.execute<QuestionType>(SQL2, [id], { outFormat: OracleDB.OUT_FORMAT_OBJECT });
 
-    if (!res.rows || res.rows.length == 0)
-      throw new CustomError(`${id}에 해당하는 시험이 존재하지 않습니다.`);
+    if (!examInfo || !examInfo.rows || examInfo.rows.length == 0)
+      throw new CustomError(`ID: ${id}에 해당하는 시험이 존재하지 않습니다.`);
+    if (!questionInfo || !questionInfo.rows || questionInfo.rows.length == 0)
+      throw new CustomError(`ID: ${id}에 해당하는 시험이 존재하지 않습니다.`);
+
+    const question: QuestionType[][] = [[], [], [], [], []];
+    for (const qqq of questionInfo.rows) {
+      if (qqq.SUBJECT == 1) question[0].push(qqq);
+      if (qqq.SUBJECT == 2) question[1].push(qqq);
+      if (qqq.SUBJECT == 3) question[2].push(qqq);
+      if (qqq.SUBJECT == 4) question[3].push(qqq);
+      if (qqq.SUBJECT == 5) question[4].push(qqq);
+    }
 
     return NextResponse.json({
       code: "success",
-      data: res.rows,
+      data: {
+        EXAM_INFO: examInfo.rows[0],
+        QUESTION_LIST: question,
+      },
     });
   } catch (err) {
     if (err instanceof CustomError)

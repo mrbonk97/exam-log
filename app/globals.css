@@ -124,3 +124,14 @@
 * {
   scroll-behavior: smooth;
 }
+
+html,
+body {
+  height: 100%;
+}
+
+.flex2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
