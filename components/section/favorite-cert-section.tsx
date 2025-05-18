@@ -36,7 +36,7 @@ export const FavoriteCertSection = async () => {
         </p>
       );
     else if (err instanceof Error)
-      message = <p className="md:mt-5 p-5 text-muted-foreground">{err.message}</p>;
+      message = <p className="md:mt-5 p-5 text-muted-foreground">오류가 발생했습니다.</p>;
 
     return (
       <section className="p-5 border-b">
