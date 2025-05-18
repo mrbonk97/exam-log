@@ -1,26 +1,25 @@
 import { Logo } from "@/components/logo";
+import { KakaoButton } from "@/components/kakao-button";
 import { NaverButton } from "@/components/naver-button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const SignInPage = () => {
   return (
-    <main className="p-5 md:p-10 min-h-[450px] h-full flex flex-col items-center justify-center gap-6 bg-muted">
+    <main className="p-5 min-h-[450px] h-full flex flex-col items-center justify-center gap-5 bg-muted">
       <Logo />
-      <Card className="min-w-sm">
-        <CardHeader className="text-center">
-          <CardTitle className="text-xl">로그인</CardTitle>
-          <CardDescription>소셜 계정으로 로그인하세요</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-5">
-          <button className="p-3 w-full rounded-md flex2 gap-2 bg-[#fee500] cursor-pointer hover:opacity-80 duration-150">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" height={28} width={28}>
-              <path d="m540 34c-298.2 0-540 187.7-540 419.2 0 143.9 93.5 270.9 235.9 346.4l-59.9 219.9c-5.3 19.4 16.8 34.9 33.8 23.6l262.6-174.1c22.2 2.1 44.7 3.4 67.6 3.4 298.2 0 540-187.7 540-419.2 0-231.5-241.8-419.2-540-419.2" />
-            </svg>
-            <span className="font-bold">카카오로 로그인</span>
-          </button>
-          <NaverButton />
-        </CardContent>
-      </Card>
+      <section className="mb-20 p-5 min-w-xs sm:min-w-sm border rounded-xl bg-background">
+        <header className="pb-5 border-b">
+          <h1 className="text-center text-xl font-semibold">로그인</h1>
+          <p className="text-center text-sm text-muted-foreground">소셜 계정으로 로그인하세요</p>
+        </header>
+        <ul className="mt-5 space-y-5">
+          <li>
+            <KakaoButton />
+          </li>
+          <li>
+            <NaverButton />
+          </li>
+        </ul>
+      </section>
     </main>
   );
 };
