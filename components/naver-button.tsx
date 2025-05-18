@@ -8,33 +8,19 @@ export const NaverButton = () => {
 
   return (
     <Link
-      className="p-3 w-full rounded-md flex2 gap-2 text-white bg-[#03c75a] cursor-pointer hover:opacity-80 duration-150"
+      className="p-3 w-full rounded-md flex2 items-center gap-2 text-white bg-[#03c75a] cursor-pointer hover:opacity-80 duration-150"
       href={url.toString()}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 1080 1080"
-        height={28}
-        width={28}
+        height={20}
+        width={20}
         fill="white"
       >
         <path d="m732.3 578.2l-400.4-573.2h-331.9v1070.9h347.7v-573.2l400.4 573.2h331.9v-1070.9h-347.7z" />
       </svg>
       <span className="font-bold">네이버로 로그인</span>
     </Link>
-  );
-  return (
-    <button className="p-3 w-full rounded-md flex2 gap-2 text-white bg-[#03c75a] cursor-pointer hover:opacity-80 duration-150">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 1080 1080"
-        height={28}
-        width={28}
-        fill="white"
-      >
-        <path d="m732.3 578.2l-400.4-573.2h-331.9v1070.9h347.7v-573.2l400.4 573.2h331.9v-1070.9h-347.7z" />
-      </svg>
-      <span className="font-bold">네이버로 로그인</span>
-    </button>
   );
 };
