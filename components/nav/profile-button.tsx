@@ -1,10 +1,8 @@
-"use client";
 import Link from "next/link";
-import { Button } from "../ui/button";
+import { cookies } from "next/headers";
+import { Button } from "@/components/ui/button";
 import { LogInIcon } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { useEffect, useState } from "react";
-import { UserType } from "@/lib/types";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,63 +10,49 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
+import { verifyJwt } from "@/lib/jwt";
+import { getUserById } from "@/actions/user-action";
+import { errorFactory } from "@/lib/el-error";
 
-export const ProfileButton = () => {
-  const [user, setUser] = useState<UserType | null>(null);
+export const ProfileButton = async () => {
+  try {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("access_token");
+    if (!accessToken) throw errorFactory("ERROR_01");
 
-  useEffect(() => {
-    const f = async () => {
-      const res = await fetch("/api/users/me", {
-        credentials: "include",
-      }).then((r) => r.json());
+    const userId = verifyJwt(accessToken.value);
+    const userInfo = await getUserById(userId);
 
-      if (res.code == "success")
-        setUser({
-          name: res.data.NAME,
-          profileImage: res.data.PROFILE_IMAGE,
-        });
-    };
+    return (
+      <DropdownMenu modal={false}>
+        <DropdownMenuTrigger>
+          <Avatar className="cursor-pointer">
+            <AvatarImage src={userInfo.PROFILE_IMAGE} />
+            <AvatarFallback>{userInfo.NAME}</AvatarFallback>
+          </Avatar>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56">
+          <DropdownMenuLabel>{userInfo.NAME}</DropdownMenuLabel>
+          <DropdownMenuSeparator />
 
-    f();
-  }, []);
-
-  const signOut = async () => {
-    const res = await fetch("/api/sign-out", {
-      credentials: "include",
-    }).then((r) => r.json());
-    if (res.code == "success") setUser(null);
-  };
-
-  if (!user)
+          <DropdownMenuItem className="cursor-pointer" asChild>
+            <Link href={"/profile"}>프로필</Link>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem className="cursor-pointer" asChild>
+            <Link href={"/api/sign-out"}>로그아웃</Link>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+  } catch {
     return (
       <Button asChild>
         <Link href={"/sign-in"}>
-          로그인 <LogInIcon />
+          <span className="hidden sm:inline">로그인</span> <LogInIcon />
         </Link>
       </Button>
     );
-
-  return (
-    <DropdownMenu modal={false}>
-      <DropdownMenuTrigger>
-        <Avatar className="cursor-pointer">
-          <AvatarImage src={user.profileImage} />
-          <AvatarFallback>{user.name}</AvatarFallback>
-        </Avatar>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-
-        <DropdownMenuItem className="cursor-pointer" asChild>
-          <Link href={"/profile"}>프로필</Link>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={signOut} className="cursor-pointer" role="button">
-          로그아웃
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
+  }
 };

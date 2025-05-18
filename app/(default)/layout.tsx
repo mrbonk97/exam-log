@@ -1,15 +1,14 @@
 import { Topnav } from "@/components/nav/top-nav";
 import { Footer } from "@/components/nav/footer";
-import CertPage from "@/app/(default)/certs/page";
 
-const HomePage = () => {
+const defaultLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Topnav />
-      <CertPage searchParams={Promise.resolve({ q: undefined })} />
+      {children}
       <Footer />
     </>
   );
 };
 
-export default HomePage;
+export default defaultLayout;

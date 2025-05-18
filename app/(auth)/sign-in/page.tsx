@@ -1,12 +1,10 @@
-import Script from "next/script";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Logo } from "@/components/logo";
 import { NaverButton } from "@/components/naver-button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const SignInPage = () => {
   return (
-    <main className="p-5 md:p-10 h-full flex flex-col items-center justify-center gap-6 bg-muted">
-      <Script src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" />
+    <main className="p-5 md:p-10 min-h-[450px] h-full flex flex-col items-center justify-center gap-6 bg-muted">
       <Logo />
       <Card className="min-w-sm">
         <CardHeader className="text-center">

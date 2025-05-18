@@ -20,20 +20,22 @@ export const SearchSection = ({ defaultValue }: Props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-5 relative">
-      <Input
-        name="q"
-        className="py-6 pl-14 pr-2"
-        placeholder="자격증을 검색하세요"
-        defaultValue={defaultValue}
-      />
-      <Button
-        type="submit"
-        variant={"secondary"}
-        className="absolute top-1/2 left-2 -translate-y-1/2 cursor-pointer"
-      >
-        <SearchIcon />
-      </Button>
-    </form>
+    <section className="p-5">
+      <form onSubmit={handleSubmit} className="h-14 relative">
+        <Input
+          name="q"
+          className="pl-14 pr-2 h-full"
+          placeholder="자격증을 검색하세요"
+          defaultValue={defaultValue}
+        />
+        <Button
+          type="submit"
+          variant={"secondary"}
+          className="absolute top-1/2 left-2 -translate-y-1/2 cursor-pointer"
+        >
+          <SearchIcon />
+        </Button>
+      </form>
+    </section>
   );
 };

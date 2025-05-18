@@ -20,11 +20,11 @@ export type ExamType = {
   SUBJECT_3: string;
   SUBJECT_4: string;
   SUBJECT_5: string;
-  REGISTER_START_DATE: string;
-  REGISTER_END_DATE: string;
-  EXAM_START_DATE: string;
-  EXAM_END_DATE: string;
-  RESULT_DATE: string;
+  REGISTER_START_DATE: Date;
+  REGISTER_END_DATE: Date;
+  EXAM_START_DATE: Date;
+  EXAM_END_DATE: Date;
+  RESULT_DATE: Date;
 };
 
 export type QuestionType = {
@@ -46,8 +46,11 @@ export type QuestionType = {
 };
 
 export type UserType = {
-  name: string;
-  profileImage: string;
+  ID: number;
+  AUTH_PROVIDER: string;
+  NAME: string;
+  PROFILE_IMAGE: string;
+  CREATED_AT: Date;
 };
 
 export type ErrorType = {

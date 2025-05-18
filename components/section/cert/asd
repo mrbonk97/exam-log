@@ -1,37 +1,4 @@
-"use client";
-import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import Image from "next/image";
-import { ExamType } from "@/lib/types";
-import { HandPlatter } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "../ui/dialog";
-import { DialogTitle } from "@radix-ui/react-dialog";
-import { useRouter } from "next/navigation";
-
-interface Props {
-  homepage: string;
-  homepageUrl: string;
-  homepageImgUrl: string;
-  schedule: ExamType[];
-  examList: ExamType[];
-}
-
-export const ExamButtonSection = ({
-  homepage,
-  homepageUrl,
-  homepageImgUrl,
-  schedule,
-  examList,
-}: Props) => {
-  const router = useRouter();
-  const getRandomTest = () => {
-    const randomIdx = Math.floor(Math.random() * examList.length);
-    router.push(`/exams/${examList[randomIdx].ID}`);
-  };
-
-  return (
-    <section className="p-5 mx-auto max-w-7xl grid grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-10 border-b">
-      <Link href={homepageUrl} className="h-full col-span-1">
+ <Link href={homepageUrl} className="h-full col-span-1">
         <Card className="h-full shadow-none cursor-pointer duration-150 hover:bg-secondary">
           <CardHeader>
             <CardTitle>접수 홈페이지</CardTitle>
@@ -81,8 +48,8 @@ export const ExamButtonSection = ({
                   {schedule.map((item) => {
                     const _title = item.TITLE.split(" ");
                     const title = `${_title[2]} ${_title[3]}`;
-                    const startDate = item.REGISTER_START_DATE.substring(0, 10);
-                    const endDate = item.REGISTER_END_DATE.substring(0, 10);
+                    const startDate = item.REGISTER_START_DATE.toLocaleDateString();
+                    const endDate = item.REGISTER_END_DATE.toLocaleDateString();
                     return (
                       <li
                         key={`schedule-${item.ID}`}
@@ -112,8 +79,8 @@ export const ExamButtonSection = ({
             {schedule.map((item) => {
               const _title = item.TITLE.split(" ");
               const title = `${_title[2]} ${_title[3]}`;
-              const startDate = item.REGISTER_START_DATE.substring(0, 10);
-              const endDate = item.REGISTER_END_DATE.substring(0, 10);
+              const startDate = item.REGISTER_START_DATE.toLocaleDateString();
+              const endDate = item.REGISTER_END_DATE.toLocaleDateString();
               return (
                 <li
                   key={`schedule-${item.ID}`}
@@ -140,6 +107,3 @@ export const ExamButtonSection = ({
           <HandPlatter size={64} className="text-yellow-500 mx-auto" />
         </CardContent>
       </Card>
-    </section>
-  );
-};
