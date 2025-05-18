@@ -6,7 +6,7 @@ export const MenuList = () => {
       <li>
         <Link href={"/certs"}>자격증</Link>
       </li>
-      <li className="hidden sm:block">
+      <li>
         <Link href={"/calendar"}>시험일정</Link>
       </li>
       <li>

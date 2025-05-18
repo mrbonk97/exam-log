@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
-import { Button } from "@/components/ui/button";
 import { LogInIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -48,11 +47,12 @@ export const ProfileButton = async () => {
     );
   } catch {
     return (
-      <Button asChild>
-        <Link href={"/sign-in"}>
-          <span className="hidden sm:inline">로그인</span> <LogInIcon />
-        </Link>
-      </Button>
+      <Link
+        href={"/sign-in"}
+        className="ml-auto sm:ml-0 sm:px-4 sm:py-2 flex items-center gap-2 rounded-md transition-all sm:bg-primary sm:text-primary-foreground shadow-xs hover:bg-primary/90"
+      >
+        <span className="hidden sm:block text-sm font-medium">로그인</span> <LogInIcon size={20} />
+      </Link>
     );
   }
 };
