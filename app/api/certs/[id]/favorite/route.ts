@@ -4,9 +4,9 @@ import { verifyJwt } from "@/lib/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
 interface Props {
-  params: {
-    id: Promise<string>;
-  };
+  params: Promise<{
+    id: string;
+  }>;
 }
 
 const SQL1 = "INSERT INTO EL_FAVORITE_CERT(USER_ID, CERT_ID) VALUES(:user_id, :cert_id)";
