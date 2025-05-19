@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { SearchSection } from "@/components/section/cert/search-section";
-import { FavoriteCertSection } from "@/components/section/favorite-cert-section";
 import { CertListSection } from "@/components/section/cert/cert-list-section";
+import { FavoriteCertSection } from "@/components/section/cert/favorite-cert-section";
 
 interface Props {
   searchParams: Promise<{

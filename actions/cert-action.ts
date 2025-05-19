@@ -27,7 +27,7 @@ export const getFavoriteCerts = async (userId: number) => {
   return res.rows || [];
 };
 
-export const getCertById = async (certId: number) => {
+export const getCertById = async (certId: string) => {
   const SQL1 = "SELECT * FROM EL_CERT WHERE ID = :id";
   const SQL2 = "SELECT * FROM EL_EXAM WHERE CERT_ID = :id ORDER BY RESULT_DATE";
 

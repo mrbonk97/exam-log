@@ -7,7 +7,7 @@ import { Metadata } from "next";
 
 interface Props {
   params: Promise<{
-    id: number;
+    id: string;
   }>;
 }
 
@@ -33,8 +33,13 @@ const CertDetailPage = async ({ params }: Props) => {
   }
 
   return (
-    <main className="pt-14">
-      <CertHeaderSection title={cert.CERT_INFO.TITLE} org={cert.CERT_INFO.ORGANIZATION} />
+    <main className="pt-14 min-h-full">
+      <CertHeaderSection
+        title={cert.CERT_INFO.TITLE}
+        org={cert.CERT_INFO.ORGANIZATION}
+        examId={id}
+        isFavorite={false}
+      />
       <CertActionSection
         description={cert.CERT_INFO.DESCRIPTION}
         homepage={cert.CERT_INFO.HOMEPAGE}
