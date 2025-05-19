@@ -25,7 +25,7 @@ interface Props {
 export const CertScheduleModal = ({ schedules }: Props) => {
   return (
     <Dialog>
-      <DialogTrigger className="underline underline-offset">상세보기</DialogTrigger>
+      <DialogTrigger className="underline underline-offset-2">상세보기</DialogTrigger>
       <DialogContent className="lg:min-w-2xl">
         <DialogHeader>
           <DialogTitle>시험 상세 일정</DialogTitle>

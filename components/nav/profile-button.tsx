@@ -25,8 +25,8 @@ export const ProfileButton = async () => {
 
     return (
       <DropdownMenu modal={false}>
-        <DropdownMenuTrigger>
-          <Avatar className="cursor-pointer">
+        <DropdownMenuTrigger className="ml-auto sm:ml-0">
+          <Avatar>
             <AvatarImage src={userInfo.PROFILE_IMAGE} />
             <AvatarFallback>{userInfo.NAME}</AvatarFallback>
           </Avatar>
@@ -35,11 +35,11 @@ export const ProfileButton = async () => {
           <DropdownMenuLabel>{userInfo.NAME}</DropdownMenuLabel>
           <DropdownMenuSeparator />
 
-          <DropdownMenuItem className="cursor-pointer" asChild>
+          <DropdownMenuItem asChild>
             <Link href={"/profile"}>프로필</Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="cursor-pointer" asChild>
+          <DropdownMenuItem asChild>
             <Link href={"/api/sign-out"}>로그아웃</Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
