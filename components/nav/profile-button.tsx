@@ -35,17 +35,13 @@ export const ProfileButton = async () => {
           <DropdownMenuLabel>{userInfo.NAME}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
-            <Link href={"/my-study"} className="w-full cursor-pointer">
-              프로필
-            </Link>
+            <Link href={"/my-study"}>프로필</Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <form action={"/api/sign-out"} className="w-full">
-              <button className="h-full w-full cursor-pointer text-left" type="submit">
-                로그아웃
-              </button>
-            </form>
+          <DropdownMenuItem asChild>
+            <Link href={"/api/sign-out"} prefetch={false}>
+              로그아웃
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
