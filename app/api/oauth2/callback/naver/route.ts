@@ -80,7 +80,7 @@ export const GET = async (req: NextRequest) => {
     const accessToken = generateJwt({ id: userId }, 1000 * 60 * 60); // 1시간
     const refreshToken = generateJwt({ id: userId }, 1000 * 60 * 60 * 24 * 30); // 30일
 
-    const redirectUrl = new URL("/", "http://localhost:3000");
+    const redirectUrl = new URL("/", process.env.API_URL!);
     const res4 = NextResponse.redirect(redirectUrl);
 
     res4.cookies.set("access_token", accessToken, {

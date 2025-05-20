@@ -34,9 +34,8 @@ export const ProfileButton = async () => {
         <DropdownMenuContent className="w-56">
           <DropdownMenuLabel>{userInfo.NAME}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-
           <DropdownMenuItem asChild>
-            <Link href={"/profile"}>프로필</Link>
+            <Link href={"/my-study"}>프로필</Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
