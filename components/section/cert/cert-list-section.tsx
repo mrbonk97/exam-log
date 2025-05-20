@@ -11,7 +11,8 @@ export const CertListSection = async ({ q }: Props) => {
 
     return (
       <section className="p-5">
-        <h2 className="text-lg md:text-xl font-semibold">
+        <div className="border-t" />
+        <h2 className="mt-5 text-lg md:text-xl font-semibold">
           {q ? `검색: ${q}` : "국가기술자격시험"}
         </h2>
         {certs.length == 0 && (

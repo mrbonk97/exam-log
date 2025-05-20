@@ -44,8 +44,20 @@ export const getCertById = async (certId: string) => {
   if (!certInfo || !certInfo.rows)
     throw errorFactory("ERROR_03", `아이디에 해당하는 시험이 없습니다. ID: ${certId}`);
 
+  await conn.close();
+
   return {
     CERT_INFO: certInfo.rows[0],
     EXAM_LIST: examInfo.rows || [],
   };
+};
+
+export const getIsFavoriteCert = async (userId: string, certId: string) => {
+  const SQL = "SELECT * FROM EL_FAVORITE_CERT WHERE USER_ID = :user_id AND CERT_ID = :cert_id";
+  const conn = await getConn();
+  const res = await conn.execute(SQL, [userId, certId], { outFormat: OracleDB.OUT_FORMAT_OBJECT });
+  await conn.close();
+
+  if (!res.rows || res.rows.length == 0) return false;
+  return true;
 };

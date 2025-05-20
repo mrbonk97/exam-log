@@ -38,7 +38,6 @@ const CertDetailPage = async ({ params }: Props) => {
         title={cert.CERT_INFO.TITLE}
         org={cert.CERT_INFO.ORGANIZATION}
         examId={id}
-        isFavorite={false}
       />
       <CertActionSection
         description={cert.CERT_INFO.DESCRIPTION}
