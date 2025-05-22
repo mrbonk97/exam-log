@@ -5,7 +5,7 @@ import { errorFactory } from "@/lib/el-error";
 
 export const getExamById = async (id: number) => {
   const SQL1 = "SELECT * FROM EL_EXAM WHERE ID = :id";
-  const SQL2 = "SELECT * FROM EL_QUESTION WHERE EXAM_ID = :id ORDER BY QUESTION_NUMBER";
+  const SQL2 = "SELECT * FROM EL_QUESTION WHERE EXAM_ID = :id ORDER BY QUESTION_IDX";
 
   const conn = await getConn();
 

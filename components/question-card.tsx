@@ -1,13 +1,10 @@
 "use client";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { HeartIcon } from "lucide-react";
+import { CircleIcon, HeartIcon, SlashIcon } from "lucide-react";
 import { Button } from "./ui/button";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useState } from "react";
 
 interface Props {
-  id: number;
+  idx: number;
   question: string;
   answer: string;
   choice_1: string;
@@ -18,7 +15,7 @@ interface Props {
 }
 
 export const QuestionCard = ({
-  id,
+  idx,
   question,
   answer,
   choice_1,
@@ -27,47 +24,119 @@ export const QuestionCard = ({
   choice_4,
   choice_5,
 }: Props) => {
+  const [checkedAnswer, setCheckedAnswer] = useState(-1);
   const [showAnswer, setShowAnswer] = useState(false);
+
+  const handleAnswer = (val: string) => {
+    setShowAnswer(false);
+    setCheckedAnswer(parseInt(val));
+  };
   return (
-    <Card id={`q${id}`} className="col-span-1 shadow-none">
-      <CardHeader>
-        <CardTitle className="flex justify-between break-keep">
-          <h5>{`${id}. ${question}`}</h5>
-          <HeartIcon size={18} role="button" className="cursor-pointer" />
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <RadioGroup>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="1" id={`q${id}r1`} />
-            <Label htmlFor={`q${id}r1`}>1. {choice_1}</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="2" id={`q${id}r2`} />
-            <Label htmlFor={`q${id}r2`}>2. {choice_2}</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="3" id={`q${id}r3`} />
-            <Label htmlFor={`q${id}r3`}>3. {choice_3}</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="4" id={`q${id}r4`} />
-            <Label htmlFor={`q${id}r4`}>4. {choice_4}</Label>
-          </div>
-          {choice_5 && (
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="5" id={`q${id}r5`} />
-              <Label htmlFor={`q${id}r5`}>4. {choice_5}</Label>
-            </div>
-          )}
-        </RadioGroup>
-      </CardContent>
-      <CardFooter className="ml-auto space-x-2">
-        <div className="font-semibold">{showAnswer && `정답: ${answer}번`}</div>
-        <Button className="cursor-pointer" onClick={() => setShowAnswer((cur) => !cur)}>
-          정답 확인
+    <article className="p-5 relative flex flex-col border rounded-lg">
+      {showAnswer && checkedAnswer == parseInt(answer) && (
+        <CircleIcon
+          className="absolute top-1/2 left-1/2 h-4/5 w-4/5 -translate-y-1/2 -translate-x-1/2 text-destructive pointer-events-none opacity-30"
+          strokeWidth={1}
+          size={128}
+        />
+      )}
+      {showAnswer && checkedAnswer != parseInt(answer) && (
+        <SlashIcon
+          className="absolute top-1/2 left-1/2 h-4/5 w-4/5 -translate-y-1/2 -translate-x-1/2 text-destructive pointer-events-none opacity-30"
+          strokeWidth={1}
+          size={128}
+        />
+      )}
+      <h4>{`${idx}. ${question}`}</h4>
+      <div role="radiogroup" className="my-5 space-y-2 w-fit">
+        {choice_1 && (
+          <Choice
+            idx={idx}
+            checkedAnswer={checkedAnswer}
+            choiceIdx={1}
+            choice={choice_1}
+            handleAnswer={handleAnswer}
+          />
+        )}
+
+        {choice_2 && (
+          <Choice
+            idx={idx}
+            checkedAnswer={checkedAnswer}
+            choiceIdx={2}
+            choice={choice_2}
+            handleAnswer={handleAnswer}
+          />
+        )}
+
+        {choice_3 && (
+          <Choice
+            idx={idx}
+            checkedAnswer={checkedAnswer}
+            choiceIdx={3}
+            choice={choice_3}
+            handleAnswer={handleAnswer}
+          />
+        )}
+
+        {choice_4 && (
+          <Choice
+            idx={idx}
+            checkedAnswer={checkedAnswer}
+            choiceIdx={4}
+            choice={choice_4}
+            handleAnswer={handleAnswer}
+          />
+        )}
+
+        {choice_5 && (
+          <Choice
+            idx={idx}
+            checkedAnswer={checkedAnswer}
+            choiceIdx={5}
+            choice={choice_5}
+            handleAnswer={handleAnswer}
+          />
+        )}
+      </div>
+      <div className="mt-auto pt-2 align-bottom border-t flex items-center justify-end gap-2">
+        {showAnswer && parseInt(answer) == checkedAnswer && (
+          <span className="mr-2 font-medium">정답: {answer}번</span>
+        )}
+        <Button onClick={() => setShowAnswer((cur) => !cur)}>채점</Button>
+        <Button>해설</Button>
+        <Button variant={"secondary"}>
+          <HeartIcon strokeWidth={0} fill="#ffa1ad" />
         </Button>
-      </CardFooter>
-    </Card>
+      </div>
+    </article>
   );
 };
+
+interface ChoiceProps {
+  idx: number;
+  choiceIdx: number;
+  choice: string;
+  checkedAnswer: number;
+  handleAnswer: (val: string) => void;
+}
+const Choice = ({ idx, choiceIdx, choice, checkedAnswer, handleAnswer }: ChoiceProps) => (
+  <>
+    <input
+      type="radio"
+      id={`q-${idx}-c-${choiceIdx}`}
+      name={`q-${idx}`}
+      value={choiceIdx}
+      className="hidden"
+      onChange={(e) => handleAnswer(e.target.value)}
+    />
+    <label
+      role="radio"
+      aria-checked={choiceIdx == checkedAnswer}
+      htmlFor={`q-${idx}-c-${choiceIdx}`}
+      className={`mr-auto p-2 pr-10 block rounded-lg text-sm font-medium cursor-pointer hover:bg-secondary aria-checked:bg-secondary duration-150`}
+    >
+      {`${choiceIdx}. ${choice}`}
+    </label>
+  </>
+);

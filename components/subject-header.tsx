@@ -14,20 +14,21 @@ export const SubjectHeader = ({ title }: Props) => {
   useEffect(() => {
     if (!ref.current) return;
 
-    const handleScroll = () => {
-      const stickyOffset = ref.current!.offsetTop;
-      setIsSticky(stickyOffset > 236);
-    };
+    const handleScroll = () => setIsSticky(ref.current!.getBoundingClientRect().top <= 56);
 
     window.addEventListener("scroll", handleScroll);
+
+    // 처음 한 번 호출해서 현재 스크롤 위치에 따라 상태 업데이트
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <header
       ref={ref}
-      className={`py-2 lg:py-5 sticky top-14 border-b duration-500
-      ${isSticky ? "bg-secondary" : "bg-background"}`}
+      className={`z-20 py-2 lg:py-5 sticky top-14 border-b duration-500 ${
+        isSticky ? "bg-secondary" : "bg-background"
+      }`}
     >
       <h4 className="mx-auto max-w-7xl text-lg lg:text-xl font-bold opacity-80">
         <DotIcon className="inline mb-1" />

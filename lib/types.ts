@@ -30,6 +30,8 @@ export type ExamType = {
 export type QuestionType = {
   ID: number;
   EXAM_ID: number;
+  SUBJECT: number;
+  QUESTION_IDX: number;
   QUESTION: string;
   IS_MULTIPLE: boolean;
   CHOICE_1: string;
@@ -41,8 +43,6 @@ export type QuestionType = {
   IMAGE_2: string | null;
   ANSWER: string;
   POINT: number;
-  QUESTION_NUMBER: number;
-  SUBJECT: number;
 };
 
 export type UserType = {
