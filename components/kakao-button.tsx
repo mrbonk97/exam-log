@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 export const KakaoButton = () => {
-  const url = new URL("https://nid.naver.com/oauth2.0/authorize");
+  const url = new URL("https://kauth.kakao.com/oauth/authorize");
   url.searchParams.append("response_type", "code");
-  url.searchParams.append("client_id", process.env.NAVER_CLIENT_ID!);
-  url.searchParams.append("redirect_uri", process.env.NAVER_CALLBACK_URL!);
+  url.searchParams.append("client_id", process.env.KAKAO_CLIENT_ID!);
+  url.searchParams.append("redirect_uri", process.env.KAKAO_CALLBACK_URL!);
 
   return (
     <Link
